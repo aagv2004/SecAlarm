@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    style="@style/Base.Theme.MyApplication"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:background="@color/lightblue"
+        android:minHeight="?attr/actionBarSize"
+        android:textAlignment="center"
+        android:theme="?attr/actionBarTheme"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Large"
+        app:title="@string/toolbarSubtitle"
+        app:titleMarginStart="10dp"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:titleTextColor="#FFFFFF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnSos"
+            android:layout_width="190dp"
+            android:layout_height="167dp"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="@string/imageButton1"
+            android:onClick="pantallaSos"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/btnsos" />
+
+        <ImageButton
+            android:id="@+id/btnCarabineros"
+            android:layout_width="0dp"
+            android:layout_height="167dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="@string/imageButton2"
+            android:onClick="llamarCarabineros"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/btncarabineros" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="vertical"
+        tools:ignore="TextSizeCheck">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Activar SOS"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:translationX="20dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Contacto Carabineros"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:translationX="20dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="132dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnHospital"
+            android:layout_width="384dp"
+            android:layout_height="136dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="@string/imageButton3"
+            android:onClick="llamarHospital"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/btnhospital" />
+
+        <ImageButton
+            android:id="@+id/btnContacto"
+            android:layout_width="wrap_content"
+            android:layout_height="135dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="@string/imageButton4"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/btncontacto" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="vertical"
+        tools:ignore="TextSizeCheck">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Contacto Hospital"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:translationX="10dp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Contacto Emergencia"
+                android:textSize="20sp"
+                android:translationX="10dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnAjustesAccesibilidad"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:backgroundTint="@color/lightblue"
+            android:text="Ajustes Accesibilidad"
+            android:textColor="@color/design_default_color_background"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btnAjustesContactos"
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:backgroundTint="@color/lightblue"
+            android:onClick="ajusteContactos"
+            android:text="Ajustes Contactos"
+            android:textColor="@color/design_default_color_on_primary"
+            android:textColorLink="@color/lightblue"
+            android:textSize="24sp"
+            tools:ignore="DuplicateIds" />
+
+        <Button
+            android:id="@+id/btnAccidentes"
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:text="Revisar Accidentes"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

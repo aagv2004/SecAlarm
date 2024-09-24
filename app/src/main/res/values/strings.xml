@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="imageButton1">btnEmergency</string>
+    <string name="imageButton2">btnCarabiners</string>
+    <string name="imageButton3">btnHospital</string>
+    <string name="imageButton4">btnContact</string>
+    <string name="toolbarSubtitle">Botones de llamada</string>
+    <string name="ajusteAccesibilidad">Ajustes Accesibilidad</string>
+    <string name="ajusteContactos">Ajustes Contactos</string>
+    <string name="labelBtnEmergency">labelBtnEmergency</string>
+    <string name="activarSos">Activar SOS</string>
+    <string name="contactoCarabineros">Contacto Carabineros</string>
+    <string name="contactoHospital">Contacto Hospital</string>
+    <string name="contactoEmergencia">Contacto Emergencia</string>
+    <string name="revisarAccidentes">Revisar Accidentes</string>
+    <string name="title_activity_ajustes_contactos">ajustesContactos</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

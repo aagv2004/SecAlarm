@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".agregarFavorito">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar4"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="?attr/colorPrimary"
+        android:backgroundTint="@color/lightblue"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="Contacto Favorito"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display2"
+        app:titleTextColor="@color/white" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre contacto"
+        android:textAlignment="viewStart"
+        android:textSize="24sp"
+        android:translationX="10dp" />
+
+    <EditText
+        android:id="@+id/nombreFavorito"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:ems="10"
+        android:hint="Juan Vera Cruz"
+        android:inputType="text"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Número contacto"
+        android:textSize="24sp"
+        android:translationX="10dp" />
+
+    <EditText
+        android:id="@+id/fonoFavorito"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:ems="10"
+        android:hint="+56912345678"
+        android:inputType="phone"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Correo contacto"
+        android:textSize="24sp"
+        android:translationX="10dp" />
+
+    <EditText
+        android:id="@+id/correoFavorito"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:ems="10"
+        android:hint="correo_ejemplo@gmail.com"
+        android:inputType="textEmailAddress"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Direccion contacto"
+        android:textSize="24sp"
+        android:translationX="10dp" />
+
+    <EditText
+        android:id="@+id/direccionFavorito"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:ems="10"
+        android:hint="Av.Providencia 1234, Depto 56,Stgo."
+        android:inputType="textPostalAddress"
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="23dp" />
+
+    <Button
+        android:id="@+id/btnAgregarFavorito"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:backgroundTint="@color/lightblue"
+        android:onClick="mostrarInfo"
+        android:text="Agregar Favorito"
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:onClick="ajusteContactos"
+        android:text="Regresar"
+        android:textSize="24sp" />
+
+</LinearLayout>
