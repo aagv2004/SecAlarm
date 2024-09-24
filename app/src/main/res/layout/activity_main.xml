@@ -70,18 +70,17 @@
                 android:layout_weight="1"
                 android:text="Activar SOS"
                 android:textAlignment="center"
-                android:textSize="20sp"
-                android:translationX="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Contacto Carabineros"
+                android:text="Carabineros"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:translationX="20dp" />
+                android:translationX="-5dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -126,23 +125,23 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="wrap_content"
+                android:layout_width="33dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Contacto Hospital"
+                android:text="Hospital"
                 android:textAlignment="center"
-                android:textSize="20sp"
-                android:translationX="10dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="wrap_content"
+                android:layout_width="94dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Contacto Emergencia"
-                android:textSize="20sp"
-                android:translationX="10dp" />
+                android:textAlignment="center"
+                android:textSize="20sp" />
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -152,16 +151,18 @@
 
         <Button
             android:id="@+id/btnAjustesAccesibilidad"
-            android:layout_width="match_parent"
-            android:layout_height="92dp"
+            android:layout_width="350dp"
+            android:layout_height="102dp"
             android:backgroundTint="@color/lightblue"
+            android:onClick="ajusteAccesibilidad"
             android:text="Ajustes Accesibilidad"
             android:textColor="@color/design_default_color_background"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:translationX="30dp" />
 
         <Button
             android:id="@+id/btnAjustesContactos"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="89dp"
             android:backgroundTint="@color/lightblue"
             android:onClick="ajusteContactos"
@@ -169,15 +170,17 @@
             android:textColor="@color/design_default_color_on_primary"
             android:textColorLink="@color/lightblue"
             android:textSize="24sp"
+            android:translationX="30dp"
             tools:ignore="DuplicateIds" />
 
         <Button
             android:id="@+id/btnAccidentes"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="89dp"
             android:backgroundTint="@color/design_default_color_error"
             android:text="Revisar Accidentes"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:translationX="30dp" />
 
     </LinearLayout>
 

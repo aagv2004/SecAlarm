@@ -16,8 +16,8 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="Contactos"
-        app:titleMarginStart="125dp"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:titleMarginStart="100dp"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:titleTextColor="@color/white" />
 
     <ListView
@@ -29,34 +29,38 @@
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:text="Mantenga presionado un contacto para elegirlo, luego utilice uno de los botones, a continuación."
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:translationX="30dp" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="350dp"
+        android:layout_height="89dp"
         android:backgroundTint="@color/lightblue"
         android:text="Editar contacto"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:translationX="30dp" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="350dp"
+        android:layout_height="89dp"
         android:backgroundTint="@color/design_default_color_error"
         android:text="Eliminar contacto"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:translationX="30dp" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="350dp"
+        android:layout_height="89dp"
         android:backgroundTint="@android:color/holo_red_light"
         android:onClick="ajusteContactos"
         android:text="Regresar"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:translationX="30dp" />
 
 </LinearLayout>

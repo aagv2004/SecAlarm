@@ -56,12 +56,13 @@
 
     <Button
         android:id="@+id/btnAgregarContacto"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="350dp"
+        android:layout_height="89dp"
         android:backgroundTint="@color/lightblue"
         android:onClick="mostrarmensaje"
         android:text="Agregar contacto"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:translationX="30dp" />
 
     <Button
         android:id="@+id/button2"

@@ -17,7 +17,8 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="Contacto Favorito"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display2"
+        app:titleMarginStart="100dp"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:titleTextColor="@color/white" />
 
     <TextView
@@ -95,12 +96,13 @@
 
     <Button
         android:id="@+id/btnAgregarFavorito"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="350dp"
+        android:layout_height="89dp"
         android:backgroundTint="@color/lightblue"
         android:onClick="mostrarInfo"
         android:text="Agregar Favorito"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:translationX="30dp" />
 
     <Space
         android:layout_width="match_parent"
@@ -109,7 +111,7 @@
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="89dp"
         android:backgroundTint="@android:color/holo_red_light"
         android:onClick="ajusteContactos"
         android:text="Regresar"

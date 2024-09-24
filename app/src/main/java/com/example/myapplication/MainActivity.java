@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.hardware.SensorEventListener;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -52,6 +53,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = getSharedPreferences("AccesibilityPrefs", MODE_PRIVATE);
+        String theme = sharedPreferences.getString("theme", "day");
+        if ("night".equals(theme)){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.black, getTheme()));
+            } else {
+                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.black));
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.white, getTheme()));
+            } else {
+                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.black));
+            }
+        }
+        float textSize = sharedPreferences.getFloat("textSize", 1.0f);
+        getResources().getConfiguration().fontScale = textSize;
+        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -138,6 +158,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (vibrator != null){
             vibrator.vibrate(1000);
         }
+    }
+
+    public void ajusteAccesibilidad(View v){
+        Intent intent = new Intent(this, activityAccesibilidad.class);
+        startActivity(intent);
     }
 
     public void ajusteContactos(View v){
