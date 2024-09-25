@@ -14,8 +14,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class agregarFavorito extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class agregarFavorito extends AppCompatActivity {
+    EditText nameInput, phoneInput;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,48 +29,19 @@ public class agregarFavorito extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        phoneInput = findViewById(R.id.fonoFavorito);
     }
-    public void mensajeFavorito(View v) {
-        Toast.makeText(this, "Favorito agregado con éxito.", Toast.LENGTH_SHORT).show();
-    }
-    public void mensajeEditar(View v){
-        Toast.makeText(this, "Favorito actualizado con éxito.", Toast.LENGTH_SHORT).show();
-    }
-    public void mostrarInfo(View v){
-        EditText inputNombre, inputFono, inputCorreo, inputDireccion;
-        SharedPreferences sharedPreferences;
 
-        inputNombre = findViewById(R.id.nombreFavorito);
-        inputFono = findViewById(R.id.fonoFavorito);
-        inputCorreo = findViewById(R.id.correoFavorito);
-        inputDireccion = findViewById(R.id.direccionFavorito);
-
-        String nombreFavorito = inputNombre.getText().toString();
-        String fonoFavorito = inputFono.getText().toString();
-        String correoFavorito = inputCorreo.getText().toString();
-        String direccionFavorito = inputDireccion.getText().toString();
-
-        sharedPreferences = getSharedPreferences("ContactosEmergenciaPrefs", MODE_PRIVATE);
-        if (!nombreFavorito.isEmpty() && !fonoFavorito.isEmpty()) {
+    public void guardarFavorito(){
+        String phone = phoneInput.getText().toString();
+        if (!phone.isEmpty()) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("CONTACT_NAME", nombreFavorito);
-            editor.putString("CONTACT_PHONE", fonoFavorito);
+            editor.putString("favoritePhone", phone);
             editor.apply();
-
-            Toast.makeText(this, "Contacto guardado con éxito", Toast.LENGTH_SHORT).show();
-
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("CONTACT_NAME", nombreFavorito);
-            resultIntent.putExtra("CONTACT_PHONE", fonoFavorito);
-            setResult(RESULT_OK, resultIntent);
-            finish();
+            Toast.makeText(this, "Contacto favorito guardado", Toast.LENGTH_SHORT).show();
+            phoneInput.setText("");
         } else {
-            Toast.makeText(this, "Por favor, ingrese nombre y teléfono", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por favor, ingrese un número de teléfono", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
     }
 }

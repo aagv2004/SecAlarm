@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AlertDialog alertDialog;
     private TextView countdownTextView;
     private CountDownTimer countDownTimer;
+    SharedPreferences sharedPreferences;
+
 
     private static final int REQUEST_CODE_ADD_CONTACT = 200;
     @Override
@@ -186,8 +188,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
     }
     public void llamarContactoEmergencia(View v){
-        ImageButton btnFavorito = findViewById(R.id.btnContacto);
-        btnFavorito.setOnClickListener(view -> agregarFavoritoPage(v));
+        String favoritePhone = sharedPreferences.getString("favoritePhone", "");
+        if(!favoritePhone.isEmpty()){
+          Intent intent = new Intent(Intent.ACTION_DIAL);
+          intent.setData(Uri.parse("tel:"+favoritePhone));
+          startActivity(intent);
+        } else {
+            Toast.makeText(this, "No hay contacto favorito guardado", Toast.LENGTH_SHORT).show();
+        }
     }
     public void agregarFavoritoPage(View v){
         Intent intent = new Intent(this, agregarFavorito.class);

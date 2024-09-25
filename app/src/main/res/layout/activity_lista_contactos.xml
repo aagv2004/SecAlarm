@@ -27,14 +27,6 @@
         android:choiceMode="singleChoice"
         android:entries="@android:array/phoneTypes" />
 
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:text="Mantenga presionado un contacto para elegirlo, luego utilice uno de los botones, a continuación."
-        android:textSize="24sp"
-        android:translationX="30dp" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="350dp"

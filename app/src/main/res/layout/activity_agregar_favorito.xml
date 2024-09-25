@@ -99,7 +99,7 @@
         android:layout_width="350dp"
         android:layout_height="89dp"
         android:backgroundTint="@color/lightblue"
-        android:onClick="mostrarInfo"
+        android:onClick="guardarFavorito"
         android:text="Agregar Favorito"
         android:textSize="24sp"
         android:translationX="30dp" />

@@ -107,6 +107,7 @@
             android:layout_weight="1"
             android:backgroundTint="#FFFFFF"
             android:contentDescription="@string/imageButton4"
+            android:onClick="llamarContactoEmergencia"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/btncontacto" />
     </LinearLayout>
