@@ -21,74 +21,49 @@
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:titleTextColor="@color/white" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nombre contacto"
-        android:textAlignment="viewStart"
-        android:textSize="24sp"
-        android:translationX="10dp" />
-
     <EditText
         android:id="@+id/nombreFavorito"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="70dp"
+        android:layout_weight="1"
         android:ems="10"
-        android:hint="Juan Vera Cruz"
+        android:hint="Nombre de contacto"
         android:inputType="text"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Número contacto"
         android:textSize="24sp"
-        android:translationX="10dp" />
+        android:translationX="30dp" />
 
     <EditText
         android:id="@+id/fonoFavorito"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="70dp"
+        android:layout_weight="1"
         android:ems="10"
-        android:hint="+56912345678"
+        android:hint="telefono de contacto"
         android:inputType="phone"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Correo contacto"
         android:textSize="24sp"
-        android:translationX="10dp" />
+        android:translationX="30dp" />
 
     <EditText
         android:id="@+id/correoFavorito"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="70dp"
+        android:layout_weight="1"
         android:ems="10"
-        android:hint="correo_ejemplo@gmail.com"
+        android:hint="correo de contacto"
         android:inputType="textEmailAddress"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Direccion contacto"
         android:textSize="24sp"
-        android:translationX="10dp" />
+        android:translationX="30dp" />
 
     <EditText
         android:id="@+id/direccionFavorito"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="70dp"
+        android:layout_weight="1"
         android:ems="10"
-        android:hint="Av.Providencia 1234, Depto 56,Stgo."
+        android:hint="direccion de contacto"
         android:inputType="textPostalAddress"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:translationX="30dp" />
 
     <Space
         android:layout_width="match_parent"

@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AlertDialog alertDialog;
     private TextView countdownTextView;
     private CountDownTimer countDownTimer;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
+    private TextView phoneText, nameText, emailText, directionText;
 
 
     private static final int REQUEST_CODE_ADD_CONTACT = 200;
@@ -188,15 +189,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
     }
     public void llamarContactoEmergencia(View v){
-        String favoritePhone = sharedPreferences.getString("favoritePhone", "");
-        if(!favoritePhone.isEmpty()){
-          Intent intent = new Intent(Intent.ACTION_DIAL);
-          intent.setData(Uri.parse("tel:"+favoritePhone));
-          startActivity(intent);
-        } else {
-            Toast.makeText(this, "No hay contacto favorito guardado", Toast.LENGTH_SHORT).show();
-        }
+        sharedPreferences = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
+
+        nameText = findViewById(R.id.nombreFavorito);
+        phoneText = findViewById(R.id.fonoFavorito);
+        emailText = findViewById(R.id.correoFavorito);
+        directionText = findViewById(R.id.direccionFavorito);
+
+        cargarContactoFav();
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:"+phoneText));
+        startActivity(intent);
     }
+
+    private void cargarContactoFav(){
+        String phone = sharedPreferences.getString("favoritePhone", "No disponible");
+        String name = sharedPreferences.getString("favoriteName", "No disponible");
+        String email = sharedPreferences.getString("favoriteEmail", "No disponible");
+        String direction = sharedPreferences.getString("favoriteDirection", "No disponible");
+
+        phoneText.setText(phone);
+        nameText.setText(name);
+        emailText.setText(email);
+        directionText.setText(direction);
+    }
+
     public void agregarFavoritoPage(View v){
         Intent intent = new Intent(this, agregarFavorito.class);
         startActivity(intent);
