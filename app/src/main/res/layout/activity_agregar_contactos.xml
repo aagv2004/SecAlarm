@@ -14,11 +14,10 @@
         android:layout_height="wrap_content"
         android:background="@color/lightBlue"
         android:minHeight="70dp"
-        android:theme="@style/Theme.MyApplication"
         app:title="Agregar Contacto"
         app:titleMarginStart="65dp"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/black" />
 
     <TextView
         android:id="@+id/textView7"
