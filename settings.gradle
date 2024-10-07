@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SecAlarm"
+rootProject.name = "MyApplication"
 include(":app")
  
