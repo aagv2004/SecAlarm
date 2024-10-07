@@ -16,4 +16,11 @@
     <string name="title_activity_ajustes_contactos">ajustesContactos</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="activar_sos">Activar SOS</string>
+    <string name="carabineros">Carabineros</string>
+    <string name="hospital">Hospital</string>
+    <string name="contacto_emergencia">Contacto Emergencia</string>
+    <string name="ajustes_accesibilidad">Ajustes Accesibilidad</string>
+    <string name="ajustes_contactos">Ajustes Contactos</string>
+    <string name="revisar_accidentes">Revisar Accidentes</string>
 </resources>

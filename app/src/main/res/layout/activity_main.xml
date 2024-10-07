@@ -13,13 +13,13 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="74dp"
-        android:background="@color/lightblue"
+        android:background="@color/lightBlue"
         android:minHeight="?attr/actionBarSize"
         android:textAlignment="center"
-        android:theme="?attr/actionBarTheme"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:title="@string/toolbarSubtitle"
-        app:titleMarginStart="10dp"
+        app:titleMarginStart="40dp"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
         app:titleTextColor="#FFFFFF" />
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Activar SOS"
+                android:text="@string/activar_sos"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Carabineros"
+                android:text="@string/carabineros"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:translationX="-5dp" />
@@ -129,7 +129,7 @@
                 android:layout_width="33dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Hospital"
+                android:text="@string/hospital"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -138,7 +138,7 @@
                 android:layout_width="94dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Contacto Emergencia"
+                android:text="@string/contacto_emergencia"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -147,41 +147,45 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="290dp"
+        android:layout_height="326dp"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/btnAjustesAccesibilidad"
-            android:layout_width="350dp"
-            android:layout_height="102dp"
-            android:backgroundTint="@color/lightblue"
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:backgroundTint="@color/lightBlue"
             android:onClick="ajusteAccesibilidad"
-            android:text="Ajustes Accesibilidad"
+            android:text="@string/ajustes_accesibilidad"
             android:textColor="@color/design_default_color_background"
             android:textSize="24sp"
-            android:translationX="30dp" />
+            android:translationX="0dp"
+            android:translationY="40dp" />
 
         <Button
             android:id="@+id/btnAjustesContactos"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="89dp"
-            android:backgroundTint="@color/lightblue"
+            android:backgroundTint="@color/lightBlue"
             android:onClick="ajusteContactos"
-            android:text="Ajustes Contactos"
+            android:text="@string/ajustes_contactos"
             android:textColor="@color/design_default_color_on_primary"
-            android:textColorLink="@color/lightblue"
+            android:textColorLink="@color/lightBlue"
             android:textSize="24sp"
-            android:translationX="30dp"
+            android:translationX="0dp"
+            android:translationY="40dp"
             tools:ignore="DuplicateIds" />
 
         <Button
             android:id="@+id/btnAccidentes"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="89dp"
             android:backgroundTint="@color/design_default_color_error"
-            android:text="Revisar Accidentes"
+            android:text="@string/revisar_accidentes"
+            android:textColor="@color/white"
             android:textSize="24sp"
-            android:translationX="30dp" />
+            android:translationX="0dp"
+            android:translationY="40dp" />
 
     </LinearLayout>
 

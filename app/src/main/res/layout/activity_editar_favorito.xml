@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="?attr/colorPrimary"
-        android:backgroundTint="@color/lightblue"
+        android:backgroundTint="@color/lightBlue"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="Editar Favorito"
@@ -90,7 +90,7 @@
         android:id="@+id/btnActualizarFav"
         android:layout_width="350dp"
         android:layout_height="89dp"
-        android:backgroundTint="@color/lightblue"
+        android:backgroundTint="@color/lightBlue"
         android:text="Actualizar Favorito"
         android:textSize="24sp"
         android:translationX="30dp" />

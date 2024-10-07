@@ -13,7 +13,7 @@
         android:id="@+id/toolbar7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/lightblue"
+        android:background="@color/lightBlue"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="Ajustes Accesibilidad"
@@ -32,7 +32,7 @@
         android:id="@+id/btnNoche"
         android:layout_width="350dp"
         android:layout_height="89dp"
-        android:backgroundTint="@color/lightblue"
+        android:backgroundTint="@color/lightBlue"
         android:text="Noche"
         android:textSize="24sp"
         android:translationX="30dp" />
@@ -41,7 +41,7 @@
         android:id="@+id/btnDia"
         android:layout_width="350dp"
         android:layout_height="89dp"
-        android:backgroundTint="@color/lightblue"
+        android:backgroundTint="@color/lightBlue"
         android:text="Día"
         android:textSize="24sp"
         android:translationX="30dp" />
@@ -58,7 +58,7 @@
         android:id="@+id/btnAumentar"
         android:layout_width="350dp"
         android:layout_height="89dp"
-        android:backgroundTint="@color/lightblue"
+        android:backgroundTint="@color/lightBlue"
         android:text="Aumentar tamaño"
         android:textSize="24sp"
         android:translationX="30dp" />
@@ -67,7 +67,7 @@
         android:id="@+id/btnReducir"
         android:layout_width="350dp"
         android:layout_height="89dp"
-        android:backgroundTint="@color/lightblue"
+        android:backgroundTint="@color/lightBlue"
         android:text="Reducir tamaño"
         android:textSize="24sp"
         android:translationX="30dp" />
