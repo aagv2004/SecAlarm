@@ -29,10 +29,13 @@ public class activityAccesibilidad extends AppCompatActivity {
         EdgeToEdge.enable(this);
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String currentTheme = sharedPreferences.getString(THEME_KEY, "day");
-        if (currentTheme.equals("night")){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
+        System.out.println("Tema actual: "+currentTheme);
+        if (currentTheme.equals("day")){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            System.out.println("MODO NOCHE: NO");
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            System.out.println("MODO NOCHE: SI");
         }
         setContentView(R.layout.activity_accesibilidad);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -44,11 +47,30 @@ public class activityAccesibilidad extends AppCompatActivity {
         Button btnNoche = findViewById(R.id.btnNoche);
         Button btnDia = findViewById(R.id.btnDia);
 
-        btnNoche.setOnClickListener(v -> setAppTheme("night"));
-        btnDia.setOnClickListener(v -> setAppTheme("day"));
+        btnNoche.setOnClickListener(view -> {
+            if (currentTheme.equals("day")){
+                System.out.println("MODO NOCHE: DESACTIVADO");
+                setAppTheme("night");
+            } else {
+                System.out.println("MODO NOCHE: ACTIVADO");
+            }
+        });
+        btnDia.setOnClickListener(view -> {
+            if (currentTheme.equals("night")) {
+                System.out.println("MODO NOCHE: ACTIVADO");
+                setAppTheme("day");
+            } else {
+                System.out.println("MODO DÍA: ACTIVADO");
+            }
+        });
     }
 
+
     public void setAppTheme(String theme){
+        String currentTheme = sharedPreferences.getString(THEME_KEY, "day");
+        if (currentTheme.equals(theme)) {
+            return;
+        }
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(THEME_KEY, theme);
         editor.apply();
@@ -58,7 +80,7 @@ public class activityAccesibilidad extends AppCompatActivity {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        recreate();
+        // recreate();
     }
 
 

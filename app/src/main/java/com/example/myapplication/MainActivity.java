@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -49,43 +50,34 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private CountDownTimer countDownTimer;
     private SharedPreferences sharedPreferences;
     private TextView phoneText, nameText, emailText, directionText;
-
+    private static final String PREF_NAME = "ThemePrefs";
+    private static final String THEME_KEY = "current_theme";
 
     private static final int REQUEST_CODE_ADD_CONTACT = 200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        //String theme = sharedPreferences.getString(THEME_KEY, "day");
 
+        //if (theme.equals("night")){
+        //    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        //} else {
+        //    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        //}
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPreferences = getSharedPreferences("AccesibilityPrefs", MODE_PRIVATE);
-        String theme = sharedPreferences.getString("theme", "day");
-        if ("night".equals(theme)){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.black, getTheme()));
-            } else {
-                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.black));
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.white, getTheme()));
-            } else {
-                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.black));
-            }
-        }
-        float textSize = sharedPreferences.getFloat("textSize", 1.0f);
-        getResources().getConfiguration().fontScale = textSize;
-        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
-
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null){
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
     protected void onResume() {
         super.onResume();
