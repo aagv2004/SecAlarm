@@ -90,7 +90,7 @@
         style="@android:style/Widget.Material.Light.Spinner.Underlined"
         android:layout_width="350dp"
         android:layout_height="89dp"
-        android:outlineProvider="none"
+        android:entries="@array/sensibilidad_opciones"
         android:spinnerMode="dropdown"
         android:translationX="30dp" />
 

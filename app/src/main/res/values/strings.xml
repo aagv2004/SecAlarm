@@ -25,4 +25,9 @@
     <string name="revisar_accidentes">Revisar Accidentes</string>
     <string name="preferido">Preferido</string>
     <string name="regresar">Regresar</string>
+    <string-array name="sensibilidad_opciones">
+        <item>Por defecto</item>
+        <item>Medio</item>
+        <item>Alto</item>
+    </string-array>
 </resources>

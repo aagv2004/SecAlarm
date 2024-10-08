@@ -56,14 +56,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static final int REQUEST_CODE_ADD_CONTACT = 200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        //String theme = sharedPreferences.getString(THEME_KEY, "day");
-
-        //if (theme.equals("night")){
-        //    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        //} else {
-        //    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        //}
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
