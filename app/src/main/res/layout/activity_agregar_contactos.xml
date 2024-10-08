@@ -17,58 +17,46 @@
         app:title="Agregar Contacto"
         app:titleMarginStart="65dp"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:titleTextColor="@color/black" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nombre contacto"
-        android:textSize="24sp"
-        android:translationX="10dp" />
+        app:titleTextColor="@color/white" />
 
     <EditText
         android:id="@+id/nombreContacto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Miguel Gomez Bolaños"
+        android:hint="Nombre de contacto"
         android:inputType="text"
-        android:minHeight="48dp" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fono contacto"
-        android:textSize="24sp"
-        android:translationX="10dp" />
+        android:minHeight="96dp" />
 
     <EditText
         android:id="@+id/numeroContacto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="+56912345678"
+        android:hint="Número de contacto"
         android:inputType="phone"
-        android:minHeight="48dp" />
+        android:minHeight="96dp" />
 
     <Button
         android:id="@+id/btnAgregarContacto"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="89dp"
-        android:backgroundTint="@color/lightBlue"
+        android:background="@color/lightBlue"
         android:onClick="mostrarmensaje"
         android:text="Agregar contacto"
+        android:textColor="@color/white"
         android:textSize="24sp"
-        android:translationX="30dp" />
+        android:translationY="250dp"
+        tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="89dp"
         android:backgroundTint="@android:color/holo_red_light"
         android:onClick="ajusteContactos"
-        android:text="Regresar"
+        android:text="@string/regresar"
+        android:textColor="@color/white"
+        android:translationY="260dp"
         android:textSize="24sp" />
 </LinearLayout>

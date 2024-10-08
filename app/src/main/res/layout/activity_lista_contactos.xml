@@ -13,11 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lightBlue"
-        android:minHeight="?attr/actionBarSize"
+        android:minHeight="70dp"
         android:theme="?attr/actionBarTheme"
         app:title="Contactos"
-        app:titleMarginStart="100dp"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
+        app:titleMarginStart="135dp"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
         app:titleTextColor="@color/white" />
 
     <ListView
@@ -29,30 +29,33 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="89dp"
         android:backgroundTint="@color/lightBlue"
         android:text="Editar contacto"
-        android:textSize="24sp"
-        android:translationX="30dp" />
+        android:textColor="@color/white"
+        android:translationY="35dp"
+        android:textSize="24sp"/>
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="89dp"
         android:backgroundTint="@color/design_default_color_error"
         android:text="Eliminar contacto"
-        android:textSize="24sp"
-        android:translationX="30dp" />
+        android:textColor="@color/white"
+        android:translationY="35dp"
+        android:textSize="24sp"/>
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="89dp"
         android:backgroundTint="@android:color/holo_red_light"
         android:onClick="ajusteContactos"
         android:text="Regresar"
         android:textSize="24sp"
-        android:translationX="30dp" />
+        android:textColor="@color/white"
+        android:translationY="105dp" />
 
 </LinearLayout>

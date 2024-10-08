@@ -14,11 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lightBlue"
-        android:minHeight="?attr/actionBarSize"
+        android:minHeight="70dp"
         android:theme="@style/Theme.MyApplication"
         app:title="Ajustes Accesibilidad"
-        app:titleMarginStart="100dp"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
+        app:titleMarginStart="65dp"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
         app:titleTextColor="@color/white"/>
 
 

@@ -14,11 +14,11 @@
         android:layout_height="75dp"
         android:background="?attr/colorPrimary"
         android:backgroundTint="@color/lightBlue"
-        android:minHeight="?attr/actionBarSize"
+        android:minHeight="70dp"
         android:theme="?attr/actionBarTheme"
         app:title="Contacto Favorito"
-        app:titleMarginStart="100dp"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
+        app:titleMarginStart="65dp"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
         app:titleTextColor="@color/white" />
 
     <EditText
@@ -71,13 +71,13 @@
 
     <Button
         android:id="@+id/btnAgregarFavorito"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="89dp"
         android:backgroundTint="@color/lightBlue"
         android:onClick="guardarFavorito"
         android:text="Agregar Favorito"
-        android:textSize="24sp"
-        android:translationX="30dp" />
+        android:textColor="@color/white"
+        android:textSize="24sp" />
 
     <Space
         android:layout_width="match_parent"
@@ -90,6 +90,7 @@
         android:backgroundTint="@android:color/holo_red_light"
         android:onClick="ajusteContactos"
         android:text="Regresar"
+        android:textColor="@color/white"
         android:textSize="24sp" />
 
 </LinearLayout>

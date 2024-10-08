@@ -24,4 +24,5 @@
     <string name="ajustes_contactos">Ajustes Contactos</string>
     <string name="revisar_accidentes">Revisar Accidentes</string>
     <string name="preferido">Preferido</string>
+    <string name="regresar">Regresar</string>
 </resources>
