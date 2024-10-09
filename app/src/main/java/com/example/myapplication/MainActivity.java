@@ -40,9 +40,9 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private static final float SHAKE_THRESHOLD = 30.0f;
     private long lastShakeTime = 0;
     private MediaPlayer mediaPlayer;
     private AlertDialog alertDialog;
@@ -50,17 +50,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private CountDownTimer countDownTimer;
     private SharedPreferences sharedPreferences;
     private TextView phoneText, nameText, emailText, directionText;
-    private static final String PREF_NAME = "ThemePrefs";
-    private static final String THEME_KEY = "current_theme";
+    private int sensitivityLevel;
+    private String detectedMovementType;
+    private long remainingTime = 15000;
+    private ImageButton btnPreferido;
 
     private static final int REQUEST_CODE_ADD_CONTACT = 200;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (sensorManager != null){
+        if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
 
@@ -70,34 +73,53 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             return insets;
         });
 
+        btnPreferido = findViewById(R.id.btnContacto);
+        sharedPreferences = getSharedPreferences("FavoritoPrefs", MODE_PRIVATE);
+
+        btnPreferido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String telefonoFavorito = sharedPreferences.getString("telefonoFavorito", "");
+
+                if (telefonoFavorito.isEmpty()) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + telefonoFavorito));
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
+
     protected void onResume() {
         super.onResume();
-        if (accelerometer != null){
+        if (accelerometer != null) {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
     }
-    public void onSensorChanged(SensorEvent event){
+
+    public void onSensorChanged(SensorEvent event) {
         float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
 
-        float accelerationMagnitude = (float)Math.sqrt(x * x + y * y + z * z);
+        float accelerationMagnitude = (float) Math.sqrt(x * x + y * y + z * z);
         long currentTime = System.currentTimeMillis();
 
         float shakeThreshold = SensitivityManager.getInstance().getSensitivityThreshold();
 
-        if (accelerationMagnitude > shakeThreshold && (currentTime - lastShakeTime > 1000)){
+        if (accelerationMagnitude > shakeThreshold && (currentTime - lastShakeTime > 1000)) {
             lastShakeTime = currentTime;
             askIfUserIsOkay();
         }
     }
-    private void askIfUserIsOkay(){
+
+    private void askIfUserIsOkay() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         countdownTextView = new TextView(this);
         countdownTextView.setTextSize(20);
@@ -108,11 +130,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        if (mediaPlayer != null){
+                        if (mediaPlayer != null) {
                             mediaPlayer.stop();
                             mediaPlayer.release();
                         }
-                        if (countDownTimer != null){
+                        if (countDownTimer != null) {
                             countDownTimer.cancel();
                         }
                         dialog.dismiss();
@@ -141,67 +163,47 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }.start();
     }
-    private void triggerAlarm(){
+
+    private void triggerAlarm() {
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm_sound);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if (vibrator != null){
+        if (vibrator != null) {
             vibrator.vibrate(1000);
         }
     }
 
-    public void ajusteAccesibilidad(View v){
+    public void ajusteAccesibilidad(View v) {
         Intent intent = new Intent(this, activityAccesibilidad.class);
         startActivity(intent);
     }
 
-    public void ajusteContactos(View v){
+    public void ajusteContactos(View v) {
 //        Toast.makeText(this, "Hola soy un mensaje", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, contactos.class);
         startActivity(i);
     }
-    public void pantallaSos(View v){
+
+    public void pantallaSos(View v) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:112"));
         startActivity(intent);
     }
-    public void llamarCarabineros(View v){
+
+    public void llamarCarabineros(View v) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:133"));
         startActivity(intent);
     }
-    public void llamarHospital(View v){
+
+    public void llamarHospital(View v) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:131"));
         startActivity(intent);
     }
-    public void llamarContactoEmergencia(View v){
-        sharedPreferences = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
 
-        nameText = findViewById(R.id.nombreFavorito);
-        phoneText = findViewById(R.id.fonoFavorito);
-        emailText = findViewById(R.id.correoFavorito);
-        directionText = findViewById(R.id.direccionFavorito);
-
-        cargarContactoFav();
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:"+phoneText));
-        startActivity(intent);
-    }
-
-    private void cargarContactoFav(){
-        String phone = sharedPreferences.getString("favoritePhone", "No disponible");
-        String name = sharedPreferences.getString("favoriteName", "No disponible");
-        String email = sharedPreferences.getString("favoriteEmail", "No disponible");
-        String direction = sharedPreferences.getString("favoriteDirection", "No disponible");
-
-        phoneText.setText(phone);
-        nameText.setText(name);
-        emailText.setText(email);
-        directionText.setText(direction);
-    }
 
     public void agregarFavoritoPage(View v){
         Intent intent = new Intent(this, agregarFavorito.class);
