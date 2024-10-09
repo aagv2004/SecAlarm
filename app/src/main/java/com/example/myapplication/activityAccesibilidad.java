@@ -6,7 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,11 +20,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class activityAccesibilidad extends AppCompatActivity implements SensorEventListener {
 
+    private String confirmationMessage;
+    private Button btnAumentar, btnReducir;
+    private TextView textView;
+    private float currentTextSize;
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private float sensitivityThreshold;
@@ -38,16 +42,7 @@ public class activityAccesibilidad extends AppCompatActivity implements SensorEv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String currentTheme = sharedPreferences.getString(THEME_KEY, "day");
-        System.out.println("Tema actual: "+currentTheme);
-        if (currentTheme.equals("day")){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            System.out.println("MODO NOCHE: NO");
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            System.out.println("MODO NOCHE: SI");
-        }
+
         setContentView(R.layout.activity_accesibilidad);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -55,8 +50,30 @@ public class activityAccesibilidad extends AppCompatActivity implements SensorEv
             return insets;
         });
 
+        sharedPreferences = getSharedPreferences("AccesibilityPrefs", MODE_PRIVATE);
+        float textSize = sharedPreferences.getFloat("textSize", 1.0f); //Valor por defecto del texto
+        getResources().getConfiguration().fontScale = textSize;
+        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
+
         Button btnNoche = findViewById(R.id.btnNoche);
         Button btnDia = findViewById(R.id.btnDia);
+        btnAumentar = findViewById(R.id.btnAumentar);
+        btnReducir = findViewById(R.id.btnReducir);
+        textView = findViewById(R.id.textView15);
+
+        // Obtener el tamaño de texto almacenado y aplicarlo
+        float savedTextSize = sharedPreferences.getFloat("textSize", 1.0f);
+        getResources().getConfiguration().fontScale = savedTextSize;
+        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
+        updateTextSizes();
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String currentTheme = sharedPreferences.getString(THEME_KEY, "day");
+        if (currentTheme.equals("day")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
 
         btnNoche.setOnClickListener(view -> {
             if (currentTheme.equals("day")){
@@ -74,35 +91,58 @@ public class activityAccesibilidad extends AppCompatActivity implements SensorEv
                 System.out.println("MODO DÍA: ACTIVADO");
             }
         });
+
+        btnAumentar.setOnClickListener(view -> changeTextSize(true));
+        btnReducir.setOnClickListener(view -> changeTextSize(false));
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        confirmationMessage = sharedPreferences.getString("confirmationMessage", "Se detectó un movimiento brusco. ¿Está todo bien?");
+        float storedSensitivity = sharedPreferences.getFloat("sensitivityThreshold", 25.0f);
+        SensitivityManager.getInstance().setSensitivityThreshold(storedSensitivity);
+        if (sensitivityThreshold == 0.0f){
+            sensitivityThreshold = 25.0f;
+        }
+
 
         spinnerSensibilidad = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.sensibilidad_opciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSensibilidad.setAdapter(adapter);
+        initSpinnerWithSavedValue();
         spinnerSensibilidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String sensibilidadSeleccionada = parentView.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), "Sensibilidad: " + sensibilidadSeleccionada, Toast.LENGTH_SHORT).show();
 
                 switch (sensibilidadSeleccionada) {
-                    case "Caida":
-                        sensitivityThreshold = 15.0f; //Alto para alguna caída
+                    case "Sensible a caídas":
+                        sensitivityThreshold = 40.0f; //Alto para alguna caída
+                        confirmationMessage = "Parece que ha ocurrido una caída. ¿Está todo bien?";
                         break;
-                    case "Golpe":
-                        sensitivityThreshold = 25.0f; //Medio para algún golpe
+                    case "Sensible a golpes":
+                        sensitivityThreshold = 35.0f; //Medio para algún golpe
+                        confirmationMessage = "Se detectó un golpe fuerte. ¿Está todo bien?";
                         break;
-                    case "Agitacion":
-                        sensitivityThreshold = 35.0f; //Bajo para agitación
+                    case "Sensible a agitación":
+                        sensitivityThreshold = 20.0f; //Bajo para agitación
+                        confirmationMessage = "Se detectó una agitación intensa. ¿Está todo bien?";
                         break;
                     default:
-                        sensitivityThreshold = 20.0f; //Por defecto
+                        sensitivityThreshold = 25.0f; //Por defecto
+                        confirmationMessage = "Se detectó un movimiento brusco. ¿Está todo bien?";
                         break;
                 }
-                Toast.makeText(getApplicationContext(), "Sensibilidad ajustada a: " + sensibilidadSeleccionada, Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putFloat("sensitivityThreshold", sensitivityThreshold);
+                editor.putString("confirmationMessage", confirmationMessage);
+                editor.apply();
+
+                System.out.println("Nueva sensibilidad seleccionada: "+ sensibilidadSeleccionada);
+                System.out.println("Umbral de sensibilidad guardado: "+ sensitivityThreshold);
+
+                SensitivityManager.getInstance().setSensitivityThreshold(sensitivityThreshold);
             }
 
             @Override
@@ -110,7 +150,31 @@ public class activityAccesibilidad extends AppCompatActivity implements SensorEv
 
             }
         });
+
     }
+
+    private void initSpinnerWithSavedValue(){
+        float storedSensitivity = sharedPreferences.getFloat("sensitivityThreshold", 25.0f);
+        System.out.println("inicializa con sensibilidad: "+ storedSensitivity);
+        System.out.println("sensibilidad almacenada correcta: "+sensitivityThreshold);
+
+        int spinnerPosition;
+        if( storedSensitivity == 40.0f){
+            spinnerPosition = 0;
+        } else if (storedSensitivity == 35.0f) {
+            spinnerPosition = 1;
+        } else if (storedSensitivity == 20.0f){
+            spinnerPosition = 2;
+        } else {
+            spinnerPosition = 3;
+        }
+
+        System.out.println("Valor almacenado de sensibilidad: " + storedSensitivity);
+        System.out.println("Posición del Spinner establecida en: " + spinnerPosition);
+        spinnerSensibilidad.setSelection(spinnerPosition);
+    }
+
+
 
     protected void onResume() {
         super.onResume();
@@ -129,15 +193,41 @@ public class activityAccesibilidad extends AppCompatActivity implements SensorEv
 
             float magnitude = (float) Math.sqrt(x * x + y * y + z * z);
 
-            if (magnitude > sensitivityThreshold) {
-                Toast.makeText(getApplicationContext(), "!Movimiento detectado! Magnitud: " + magnitude, Toast.LENGTH_SHORT).show();
-            }
+            sensitivityThreshold = SensitivityManager.getInstance().getSensitivityThreshold();
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+    public void changeTextSize(boolean increase) {
+        float currentSize = getResources().getConfiguration().fontScale;
+        float newSize = increase ? currentSize + 0.1f : currentSize - 0.1f;
+
+        if (newSize >= 1.0f && newSize <= 1.5f) {
+            // Guarda el nuevo tamaño en SharedPreferences
+            sharedPreferences.edit().putFloat("textSize", newSize).apply();
+
+            // Actualiza la configuración global
+            getResources().getConfiguration().fontScale = newSize;
+            getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
+
+            // Llama a un método para aplicar el nuevo tamaño de texto a todas las vistas
+            updateTextSizes();
+        }
+    }
+
+    // Método para actualizar el tamaño del texto de todas las vistas
+    private void updateTextSizes() {
+        float textSize = getResources().getConfiguration().fontScale * getResources().getDisplayMetrics().scaledDensity;
+
+        // Actualiza todos los TextView en esta actividad (puedes hacer lo mismo para otros tipos de vistas)
+        //textView.setTextSize(textSize);
+
+        // Si tienes otros TextViews, agrégales aquí
+        // Ejemplo: textView2.setTextSize(textSize);
+        recreate();
     }
 
 

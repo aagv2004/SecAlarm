@@ -90,7 +90,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float accelerationMagnitude = (float)Math.sqrt(x * x + y * y + z * z);
         long currentTime = System.currentTimeMillis();
 
-        if (accelerationMagnitude > SHAKE_THRESHOLD && (currentTime - lastShakeTime > 1000)){
+        float shakeThreshold = SensitivityManager.getInstance().getSensitivityThreshold();
+
+        if (accelerationMagnitude > shakeThreshold && (currentTime - lastShakeTime > 1000)){
             lastShakeTime = currentTime;
             askIfUserIsOkay();
         }
@@ -121,13 +123,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         startCountdown();
     }
+
     private void startCountdown() {
         final long totalTimeMilis = 15000;
+        SharedPreferences sharedPreferences = getSharedPreferences("AccesibilityPrefs", MODE_PRIVATE);
+        String confirmationMessage = sharedPreferences.getString("confirmationMessage", "¿Está todo bien? Confirme por favor");
         countDownTimer = new CountDownTimer(totalTimeMilis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long secondsRemaining = millisUntilFinished / 1000;
-                countdownTextView.setText("¿Está todo bien? Confirme por favor\nTiempo restante: " + secondsRemaining + " segundos.");
+                countdownTextView.setText(confirmationMessage + "\nTiempo restante: " + secondsRemaining + " segundos.");
             }
 
             @Override
