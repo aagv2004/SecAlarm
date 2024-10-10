@@ -27,13 +27,13 @@ import android.widget.Toast;
 public class activityAccesibilidad extends AppCompatActivity implements SensorEventListener {
 
     private String confirmationMessage;
-    private Button btnAumentar, btnReducir;
+    private Button btnAumentar, btnReducir, btnNoche, btnDia;
     private TextView textView;
     private float currentTextSize;
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private float sensitivityThreshold;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences, sharedPreferencesTheme;
     private static final String PREFS_NAME = "themePrefs";
     private static final String THEME_KEY = "theme";
     private Spinner spinnerSensibilidad;
@@ -50,25 +50,15 @@ public class activityAccesibilidad extends AppCompatActivity implements SensorEv
             return insets;
         });
 
-        sharedPreferences = getSharedPreferences("AccesibilityPrefs", MODE_PRIVATE);
-        float textSize = sharedPreferences.getFloat("textSize", 1.0f); //Valor por defecto del texto
-        getResources().getConfiguration().fontScale = textSize;
-        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
 
-        Button btnNoche = findViewById(R.id.btnNoche);
-        Button btnDia = findViewById(R.id.btnDia);
+        btnNoche = findViewById(R.id.btnNoche);
+        btnDia = findViewById(R.id.btnDia);
         btnAumentar = findViewById(R.id.btnAumentar);
         btnReducir = findViewById(R.id.btnReducir);
         textView = findViewById(R.id.textView15);
 
-        // Obtener el tamaño de texto almacenado y aplicarlo
-        float savedTextSize = sharedPreferences.getFloat("textSize", 1.0f);
-        getResources().getConfiguration().fontScale = savedTextSize;
-        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
-        updateTextSizes();
-
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String currentTheme = sharedPreferences.getString(THEME_KEY, "day");
+        sharedPreferencesTheme = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String currentTheme = sharedPreferencesTheme.getString(THEME_KEY, "day");
         if (currentTheme.equals("day")){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else {
@@ -91,6 +81,15 @@ public class activityAccesibilidad extends AppCompatActivity implements SensorEv
                 System.out.println("MODO DÍA: ACTIVADO");
             }
         });
+        sharedPreferences = getSharedPreferences("AccesibilityPrefs", MODE_PRIVATE);
+        float textSize = sharedPreferences.getFloat("textSize", 1.0f); //Valor por defecto del texto
+        getResources().getConfiguration().fontScale = textSize;
+        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
+
+        float savedTextSize = sharedPreferences.getFloat("textSize", 1.0f);
+        getResources().getConfiguration().fontScale = savedTextSize;
+        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
+        updateTextSizes();
 
         btnAumentar.setOnClickListener(view -> changeTextSize(true));
         btnReducir.setOnClickListener(view -> changeTextSize(false));
@@ -232,11 +231,11 @@ public class activityAccesibilidad extends AppCompatActivity implements SensorEv
 
 
     public void setAppTheme(String theme){
-        String currentTheme = sharedPreferences.getString(THEME_KEY, "day");
+        String currentTheme = sharedPreferencesTheme.getString(THEME_KEY, "day");
         if (currentTheme.equals(theme)) {
             return;
         }
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferencesTheme.edit();
         editor.putString(THEME_KEY, theme);
         editor.apply();
 

@@ -13,20 +13,32 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.Firebase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class listaContactos extends AppCompatActivity {
 
-    private ListView listViewContactos;
-    private ArrayList<String> listaContactos;
-    private ArrayAdapter<String> adapter;
+    private RecyclerView recyclerView;
+    private ContactAdapter contactAdapter;
+    private List<Contacto> contactoList = new ArrayList<>();
 
-    private static final int REQUEST_CODE_AGREGAR_CONTACTO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,41 +53,32 @@ public class listaContactos extends AppCompatActivity {
             return insets;
         });
 
-        listViewContactos = findViewById(R.id.lvContactos);
-        listaContactos = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaContactos);
-        listViewContactos.setAdapter(adapter);
+        recyclerView = findViewById(R.id.listViewEmergencia);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        cargarContactos();
-    }
+        contactAdapter = new ContactAdapter(contactoList);
+        recyclerView.setAdapter(contactAdapter);
 
-    private void cargarContactos() {
-        listaContactos.add("Juan Perez +56961917708");
-        listaContactos.add("Joselito Dominguez +56912345678");
-        listaContactos.add("Pera Manzanera +569888118");
-        adapter.notifyDataSetChanged();
-    }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference contactsRef = database.getReference("contacts");
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_AGREGAR_CONTACTO && resultCode == RESULT_OK) {
-            if (data != null) {
-                // Obtener el contacto agregado
-                String nuevoContacto = data.getStringExtra("nuevoContacto");
-                if (nuevoContacto != null) {
-                    // Agregar el nuevo contacto a la lista y actualizar el adaptador
-                    listaContactos.add(nuevoContacto);
-                    adapter.notifyDataSetChanged();
+        contactsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                contactoList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Contacto contacto = snapshot.getValue(Contacto.class);
+                    contactoList.add(contacto);
                 }
+                contactAdapter.notifyDataSetChanged();
             }
-        }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // No es necesario recargar contactos fijos en cada resume,
-        // solo mantenemos la lista dinámica de contactos.
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 }

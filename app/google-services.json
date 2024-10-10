@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "673493039253",
+    "project_id": "secalarmproject",
+    "storage_bucket": "secalarmproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673493039253:android:e993884c13026a058e839c",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI_PE2ZkuzQVcHQc7Urey0JeNPFTFCqZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

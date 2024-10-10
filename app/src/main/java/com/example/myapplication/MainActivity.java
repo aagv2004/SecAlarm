@@ -38,6 +38,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AlertDialog alertDialog;
     private TextView countdownTextView;
     private CountDownTimer countDownTimer;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences, sharedPreferencesTheme;
     private TextView phoneText, nameText, emailText, directionText;
     private int sensitivityLevel;
     private String detectedMovementType;
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onClick(View view) {
                 String telefonoFavorito = sharedPreferences.getString("telefonoFavorito", "");
 
-                if (telefonoFavorito.isEmpty()) {
+                if (!telefonoFavorito.isEmpty()) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse("tel:" + telefonoFavorito));
                     startActivity(intent);
