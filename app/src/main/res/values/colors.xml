@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="lightBlue">#03A9F4</color>
-    <color name="darkGray">#A9A9A9</color>
+    <color name="primary_light_blue">#007FFF</color>
+    <color name="primary_dark_blue">#0039a6</color>
+    <color name="secondary">#FF0000</color> <!-- Un color secundario cualquiera, por ejemplo, naranja -->
+    <color name="background_light">#FFFFFF</color>
+    <color name="background_dark">#121212</color>
+    <color name="text_light">#000000</color>
+    <color name="text_dark">#FFFFFF</color>
 </resources>
