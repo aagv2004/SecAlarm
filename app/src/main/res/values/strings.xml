@@ -27,6 +27,7 @@
     <string name="regresar">Regresar</string>
     <string name="favorito">Favorito</string>
     <string name="llamar">Llamar</string>
+    <string name="add_contact">add_contact</string>
     <string-array name="sensibilidad_opciones">
         <item>Sensible a caídas</item>
         <item>Sensible a golpes</item>
