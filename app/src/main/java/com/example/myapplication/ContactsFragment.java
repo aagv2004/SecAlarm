@@ -17,9 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 public class ContactsFragment extends Fragment implements ContactsAdapter.OnContactActionListener {
 
@@ -92,6 +92,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnCont
             Map<String, Object> nuevoContacto = new HashMap<>();
             nuevoContacto.put("nombre", nombre);
             nuevoContacto.put("telefono", telefono);
+            nuevoContacto.put("favorito", false);
 
             // Agregar contacto a Firestore
             db.collection("contactos")
@@ -176,7 +177,13 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnCont
 
     @Override
     public void onDeleteClick(int position) {
-        eliminarContacto(position);
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Confirmar Eliminación")
+                .setMessage("¿Está seguro de que desea eliminar este contacto?")
+                .setPositiveButton("Eliminar", (dialog, which) -> eliminarContacto(position))
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
     }
 
     @Override
@@ -192,23 +199,11 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnCont
         // Verificar si el contacto ya es favorito
         Boolean esFavorito = (Boolean) contacto.get("favorito");
         if (esFavorito != null && esFavorito) {
-            // Si ya es favorito, desmarcarlo
-            db.collection("contactos").document(documentId).update("favorito", false)
-                    .addOnSuccessListener(aVoid -> {
-                        contacto.put("favorito", false);
-                        adapter.notifyItemChanged(position);
-                        Toast.makeText(getActivity(), "Contacto desmarcado como favorito", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error al desmarcar el contacto como favorito", Toast.LENGTH_SHORT).show());
+            // Si ya es favorito, llamar al método de desmarcar
+            onDesmarcarFavorito(contacto, position);
         } else {
-            // Si no es favorito, marcarlo
-            db.collection("contactos").document(documentId).update("favorito", true)
-                    .addOnSuccessListener(aVoid -> {
-                        contacto.put("favorito", true);
-                        adapter.notifyItemChanged(position);
-                        Toast.makeText(getActivity(), "Contacto marcado como favorito", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error al marcar el contacto como favorito", Toast.LENGTH_SHORT).show());
+            // Si no es favorito, verificar si hay un favorito actual
+            adapter.verificarFavoritoActual(position, contacto); // Llama al método en el adapter
         }
     }
 
@@ -232,6 +227,44 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnCont
                     Toast.makeText(getActivity(), "Contacto favorito actualizado", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error al actualizar contacto favorito", Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public void onDesmarcarFavorito(Map<String, Object> contacto, int position) {
+        if ((contacto.get("favorito").equals(true))){
+            return;
+        }
+        // Mostrar diálogo de confirmación
+        new AlertDialog.Builder(requireContext())
+                .setTitle("¡Aviso!")
+                .setMessage("¿Desea desmarcar este contacto como favorito y marcar el nuevo contacto como favorito?")
+                .setPositiveButton("Confirmar", (dialog, which) -> {
+                    // Desmarcar el favorito actual
+                    desmarcarFavoritoActual(() -> {
+                        // Marcar el nuevo favorito
+                        String nuevoFavoritoId = (String) contacto.get("documentId");
+                        actualizarFavorito(nuevoFavoritoId, position);
+                    });
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
+    // Método para desmarcar el favorito actual
+    private void desmarcarFavoritoActual(Runnable onComplete) {
+        db.collection("contactos")
+                .whereEqualTo("favorito", true)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        doc.getReference().update("favorito", false);
+                    }
+                    onComplete.run(); // Llamar al callback después de desmarcar
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(requireContext(), "Error al desmarcar el favorito actual", Toast.LENGTH_SHORT).show();
+                });
     }
 
 }

@@ -4,11 +4,11 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment {
             fusedLocationProviderClient.getLastLocation()
                     .addOnSuccessListener(location -> {
                         if (location != null) {
-                            enviarSMS(contactos, location);
+                            enviarSMS(contactos, "!Ayuda¡ Mi ubicación es: " + location);
                         } else {
                             Toast.makeText(requireContext(), "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
                         }
@@ -191,19 +191,26 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void enviarSMS(List<String> contactos, Location location) {
-        String mensaje = "SOS! Mi ubicación es: https://maps.google.com/?q=" + location.getLatitude() + "," + location.getLongitude();
+    private void enviarSMS(List<String> contactos, String mensaje) {
         SmsManager smsManager = SmsManager.getDefault();
         for (String numero : contactos) {
-            smsManager.sendTextMessage(numero, null, mensaje, null, null);
+            try {
+                smsManager.sendTextMessage(numero, null, mensaje, null, null);
+                Log.d("SMS Enviado", "Enviando SMS a: " + numero);
+            } catch (Exception e) {
+                Log.e("Error SMS", "Error al enviar SMS a " + numero + ": " + e.getMessage());
+            }
         }
-        Toast.makeText(requireContext(), "SOS enviado", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "SOS enviado a " + contactos.size() + " contactos", Toast.LENGTH_SHORT).show();
     }
 
     public void actualizarContactoFavorito(Map<String, Object> contacto) {
-        numeroFavorito = (String) contacto.get("telefono");
-        numeroFavoritoText.setText("Número: " + contacto.get("telefono"));
-        nombreFavoritoText.setText("Nombre: " + contacto.get("nombre"));
+        String nombreFavorito = (String) contacto.get("nombre");
+        String numeroFavorito = (String) contacto.get("telefono");
+
+        nombreFavoritoText.setText("Nombre: " + nombreFavorito);
+        numeroFavoritoText.setText("Número: " + numeroFavorito);
+
     }
 
     public interface OnContactoFavoritoSeleccionadoListener {

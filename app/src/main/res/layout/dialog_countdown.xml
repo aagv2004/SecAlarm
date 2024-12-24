@@ -23,9 +23,9 @@
         android:layout_height="200dp"
         android:indeterminateBehavior="repeat"
         android:indeterminateOnly="false"
-        android:max="100"
+        android:max="10"
         android:maxWidth="50dip"
-        android:progress="100"
+        android:progress="0"
         android:progressDrawable="@drawable/circular_progress"
         android:progressTint="@color/secondary" />
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -42,8 +44,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         Map<String, Object> contacto = listaContactos.get(position);
         holder.bind(contacto, position);
-
-        holder.btnFavorite.setOnClickListener(v -> actionListener.onFavoriteClick(position, contacto));
     }
 
     @Override
@@ -53,7 +53,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     public class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView tvNombre, tvTelefono;
-        Button btnEdit, btnDelete, btnFavorite;
+        Button btnEdit, btnDelete;
+        CheckBox favoriteBox;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
@@ -61,46 +62,84 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             tvTelefono = itemView.findViewById(R.id.tvTelefono);
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
-            btnFavorite = itemView.findViewById(R.id.btnFavorite);
+            favoriteBox = itemView.findViewById(R.id.favoriteBox);
 
             // Configuración de los botones
             btnEdit.setOnClickListener(v -> actionListener.onEditClick(getBindingAdapterPosition()));
             btnDelete.setOnClickListener(v -> actionListener.onDeleteClick(getBindingAdapterPosition()));
+            favoriteBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    actionListener.onFavoriteClick(getBindingAdapterPosition(), listaContactos.get(getBindingAdapterPosition()));
+                } else {
+                    actionListener.onDesmarcarFavorito(listaContactos.get(getBindingAdapterPosition()), getBindingAdapterPosition());
+                }
+            });
         }
 
         public void bind(Map<String, Object> contacto, int position) {
             tvNombre.setText((String) contacto.get("nombre"));
             tvTelefono.setText((String) contacto.get("telefono"));
+            favoriteBox.setChecked((Boolean) contacto.get("favorito"));
         }
     }
 
-    // Actualizar el favorito en Firebase
     public void actualizarFavorito(String nuevoFavoritoId, int position) {
-        // Desmarcar cualquier favorito anterior
+        // Consultar si hay un favorito actual
         db.collection("contactos")
                 .whereEqualTo("favorito", true)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
-                    for (QueryDocumentSnapshot doc : querySnapshot) {
-                        doc.getReference().update("favorito", false);
+                    if (!querySnapshot.isEmpty()) {
+                        // Si hay un favorito actual, mostrar el diálogo de confirmación
+                        QueryDocumentSnapshot doc = (QueryDocumentSnapshot) querySnapshot.getDocuments().get(0);
+                        String nombreActual = (String) doc.get("nombre");
+                        mostrarDialogoConfirmacion(nuevoFavoritoId, position, nombreActual);
+                    } else {
+                        // Si no hay favorito actual, marcar el nuevo favorito directamente
+                        marcarNuevoFavorito(nuevoFavoritoId, position);
                     }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Error al verificar favorito actual", Toast.LENGTH_SHORT).show();
+                });
+    }
 
-                    // Marcar el nuevo favorito
-                    db.collection("contactos")
-                            .document(nuevoFavoritoId)
-                            .update("favorito", true)
-                            .addOnSuccessListener(aVoid -> {
-                                listaContactos.get(position).put("favorito", true);
-                                notifyItemChanged(position);
-                                Toast.makeText(context, "Favorito actualizado", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e ->
-                                    Toast.makeText(context, "Error al actualizar favorito", Toast.LENGTH_SHORT).show()
-                            );
+    // Método para marcar el nuevo favorito
+    private void marcarNuevoFavorito(String nuevoFavoritoId, int position) {
+        // Marcar el nuevo favorito
+        db.collection("contactos")
+                .document(nuevoFavoritoId)
+                .update("favorito", true)
+                .addOnSuccessListener(aVoid -> {
+                    // Actualizar el estado del contacto en la lista
+                    listaContactos.get(position).put("favorito", true);
+                    notifyItemChanged(position); // Actualizar el CheckBox en la interfaz
+                    Toast.makeText(context, "Favorito actualizado", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(context, "Error al obtener favorito actual", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Error al actualizar favorito", Toast.LENGTH_SHORT).show()
                 );
+    }
+
+    // Método para verificar si hay un favorito actual
+    public void verificarFavoritoActual(int position, Map<String, Object> nuevoContacto) {
+        // Consultar si hay un favorito actual
+        db.collection("contactos")
+                .whereEqualTo("favorito", true)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        // Si hay un favorito actual, desmarcarlo
+                        for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                            doc.getReference().update("favorito", false);
+                        }
+                    }
+                    // Ahora marcar el nuevo favorito
+                    marcarNuevoFavorito(nuevoContacto.get("documentId").toString(), position);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Error al verificar favorito actual", Toast.LENGTH_SHORT).show();
+                });
     }
 
     // Mostrar confirmación antes de cambiar el favorito
@@ -109,15 +148,36 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                 .setTitle("¡Aviso!")
                 .setMessage("Usted ya tiene un contacto favorito: " + nombreActual +
                         "\n¿Desea cambiar su contacto favorito?")
-                .setPositiveButton("Confirmar", (dialog, which) -> actualizarFavorito(nuevoFavoritoId, position))
+                .setPositiveButton("Confirmar", (dialog, which) -> {
+                    // Desmarcar el favorito actual
+                    desmarcarFavoritoActual(() -> marcarNuevoFavorito(nuevoFavoritoId, position));
+                })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
                 .create()
                 .show();
+    }
+
+
+    // Método para desmarcar el favorito actual
+    private void desmarcarFavoritoActual(Runnable onComplete) {
+        db.collection("contactos")
+                .whereEqualTo("favorito", true)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        doc.getReference().update("favorito", false);
+                    }
+                    onComplete.run(); // Llamar al callback después de desmarcar
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Error al desmarcar el favorito actual", Toast.LENGTH_SHORT).show();
+                });
     }
 
     public interface OnContactActionListener {
         void onEditClick(int position);
         void onDeleteClick(int position);
         void onFavoriteClick(int position, Map<String, Object> stringObjectMap);
+        void onDesmarcarFavorito(Map<String, Object> contacto, int position); // Nuevo método
     }
 }
