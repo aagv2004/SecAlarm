@@ -19,12 +19,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 public class ContactsFragment extends Fragment implements ContactsAdapter.OnContactActionListener {
 
     private RecyclerView recyclerView;
     private ContactsAdapter adapter;
-    private List<Map<String, Object>> listaContactos;
+    private List<Map<String, Object>> listaContactos = new ArrayList<>();
     private FirebaseFirestore db;
 
     public ContactsFragment() {
@@ -78,23 +79,32 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnCont
         final EditText editTextTelefono = dialogView.findViewById(R.id.etTelefono);
 
         builder.setPositiveButton("Agregar", (dialog, which) -> {
-            String nombre = editTextNombre.getText().toString();
-            String telefono = editTextTelefono.getText().toString();
+            String nombre = editTextNombre.getText().toString().trim();
+            String telefono = editTextTelefono.getText().toString().trim();
 
+            // Validar entradas
             if (nombre.isEmpty() || telefono.isEmpty() || !PhoneNumberUtils.isGlobalPhoneNumber(telefono)) {
                 Toast.makeText(getActivity(), "Por favor ingrese un nombre y un teléfono válidos.", Toast.LENGTH_SHORT).show();
-            } else {
-                Map<String, Object> nuevoContacto = Map.of("nombre", nombre, "telefono", telefono);
-                db.collection("contactos")
-                        .add(nuevoContacto)
-                        .addOnSuccessListener(documentReference -> {
-                            nuevoContacto.put("documentId", documentReference.getId());
-                            listaContactos.add(nuevoContacto);
-                            adapter.notifyItemInserted(listaContactos.size() - 1);
-                            Toast.makeText(getActivity(), "Contacto agregado", Toast.LENGTH_SHORT).show();
-                        })
-                        .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error al agregar el contacto", Toast.LENGTH_SHORT).show());
+                return; // Salir si la validación falla
             }
+
+            // Crear nuevo contacto
+            Map<String, Object> nuevoContacto = new HashMap<>();
+            nuevoContacto.put("nombre", nombre);
+            nuevoContacto.put("telefono", telefono);
+
+            // Agregar contacto a Firestore
+            db.collection("contactos")
+                    .add(nuevoContacto)
+                    .addOnSuccessListener(documentReference -> {
+                        nuevoContacto.put("documentId", documentReference.getId());
+                        listaContactos.add(nuevoContacto);
+                        adapter.notifyItemInserted(listaContactos.size() - 1);
+                        Toast.makeText(getActivity(), "Contacto agregado", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getActivity(), "Error al agregar el contacto", Toast.LENGTH_SHORT).show();
+                    });
         });
 
         builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
@@ -170,8 +180,58 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnCont
     }
 
     @Override
-    public void onFavoriteClick(int position) {
+    public void onFavoriteClick(int position, Map<String, Object> stringObjectMap) {
         Map<String, Object> contacto = listaContactos.get(position);
-        Toast.makeText(getActivity(), "Contacto marcado como favorito: " + contacto.get("nombre"), Toast.LENGTH_SHORT).show();
+        String documentId = (String) contacto.get("documentId");
+
+        if (documentId == null) {
+            Toast.makeText(getActivity(), "Error: ID del documento no encontrado.", Toast.LENGTH_SHORT).show();
+            return; // Salir si no hay ID
+        }
+
+        // Verificar si el contacto ya es favorito
+        Boolean esFavorito = (Boolean) contacto.get("favorito");
+        if (esFavorito != null && esFavorito) {
+            // Si ya es favorito, desmarcarlo
+            db.collection("contactos").document(documentId).update("favorito", false)
+                    .addOnSuccessListener(aVoid -> {
+                        contacto.put("favorito", false);
+                        adapter.notifyItemChanged(position);
+                        Toast.makeText(getActivity(), "Contacto desmarcado como favorito", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error al desmarcar el contacto como favorito", Toast.LENGTH_SHORT).show());
+        } else {
+            // Si no es favorito, marcarlo
+            db.collection("contactos").document(documentId).update("favorito", true)
+                    .addOnSuccessListener(aVoid -> {
+                        contacto.put("favorito", true);
+                        adapter.notifyItemChanged(position);
+                        Toast.makeText(getActivity(), "Contacto marcado como favorito", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error al marcar el contacto como favorito", Toast.LENGTH_SHORT).show());
+        }
     }
+
+    private void actualizarFavorito(String nuevoFavoritoId, int position) {
+        // Desmarcar el favorito actual (si existe)
+        for (Map<String, Object> contacto : listaContactos) {
+            Boolean esFavorito = (Boolean) contacto.get("favorito");
+            if (esFavorito != null && esFavorito) {
+                String favoritoId = (String) contacto.get("documentId");
+                db.collection("contactos").document(favoritoId).update("favorito", false);
+                contacto.put("favorito", false);
+                adapter.notifyItemChanged(listaContactos.indexOf(contacto));
+                break;
+            }
+        }
+        // Marcar el nuevo contacto como favorito
+        db.collection("favorito")
+                .document("contactoFavorito")
+                .set(nuevoFavoritoId)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getActivity(), "Contacto favorito actualizado", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error al actualizar contacto favorito", Toast.LENGTH_SHORT).show());
+    }
+
 }

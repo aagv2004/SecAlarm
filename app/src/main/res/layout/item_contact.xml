@@ -1,64 +1,86 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical"
-    android:weightSum="3">
+    android:background="?android:attr/selectableItemBackground">
 
     <!-- Nombre del contacto -->
     <TextView
         android:id="@+id/tvNombre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="Nombre"
+        android:text="Nombre Contacto"
         android:textSize="16sp"
+        android:textStyle="bold"
         android:ellipsize="end"
-        android:maxLines="1" />
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Teléfono del contacto -->
     <TextView
         android:id="@+id/tvTelefono"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="Teléfono"
-        android:textSize="16sp"
+        android:text="Teléfono Contacto"
+        android:textSize="14sp"
         android:ellipsize="end"
-        android:maxLines="1" />
+        android:maxLines="1"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/layoutButtons" />
 
     <!-- Botones de acción -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/layoutButtons"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:gravity="end">
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvTelefono"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <!-- Botón Editar -->
         <Button
             android:id="@+id/btnEdit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Editar"
-            android:layout_marginEnd="8dp" />
-
-        <!-- Botón Eliminar -->
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Eliminar"
-            android:layout_marginEnd="8dp" />
+            android:layout_weight="1"
+            android:text="EDITAR"
+            android:textSize="12sp"
+            android:padding="8dp"
+            android:layout_marginEnd="4dp" />
 
         <!-- Botón Favorito -->
         <Button
             android:id="@+id/btnFavorite"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Favorito" />
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFC107"
+            android:padding="8dp"
+            android:text="FAVORITO"
+            android:textSize="12sp" />
+
+        <!-- Botón Eliminar -->
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:backgroundTint="#E91E63"
+            android:padding="8dp"
+            android:text="ELIMINAR"
+            android:textSize="12sp" />
     </LinearLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@
             android:layout_height="69dp"
             android:layout_marginStart="16dp"
             android:text="Llamar"
+            android:contentDescription="Botón llamada contacto favorito"
             app:icon="@drawable/baseline_phone_forwarded_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,9 +112,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre: "
+            android:contentDescription="Nombre de Contacto Favorito"
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.159"
+            app:layout_constraintHorizontal_bias="0.062"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -123,6 +125,7 @@
             android:layout_height="wrap_content"
             android:text="Numero: +56961917708 "
             android:textSize="16dp"
+            android:contentDescription="Teléfono contacto favorito"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.159"
             app:layout_constraintStart_toEndOf="@+id/imageView"
