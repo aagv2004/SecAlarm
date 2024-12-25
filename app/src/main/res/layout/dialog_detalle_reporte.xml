@@ -1,0 +1,153 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/lightGray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/dialog_background"
+            android:padding="16dp"
+            android:elevation="4dp">
+
+            <!-- Encabezado: Título del Diálogo -->
+            <TextView
+                android:id="@+id/tvTituloDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detalle del Reporte"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:padding="16dp"
+                android:background="@color/primaryColor"
+                android:elevation="2dp" />
+
+            <!-- Título del Reporte -->
+            <TextView
+                android:id="@+id/tvTituloDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título del Reporte"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/primaryColor" />
+
+            <!-- Responsable -->
+            <TextView
+                android:id="@+id/tvResponsableDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Responsable: Juan Pérez"
+                android:textSize="16sp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/secondaryText" />
+
+            <!-- Descripción -->
+            <TextView
+                android:id="@+id/tvDescripcionDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descripción:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/primaryText" />
+
+            <TextView
+                android:id="@+id/tvDescripcionTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="@color/secondaryText" />
+
+            <!-- Separador -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGray"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Acontecimientos -->
+            <TextView
+                android:id="@+id/tvAcontecimientosHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/secondaryColor"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Acontecimientos"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/tvAcontecimientosDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:paddingTop="8dp"
+                android:textColor="@color/secondaryText" />
+
+            <!-- Fecha y Lugar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/tvFechaHoraDetalle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingEnd="8dp"
+                    android:text="Fecha y hora:"
+                    android:textColor="@color/primaryText" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvLugarDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lugar:"
+                android:textColor="@color/primaryText" />
+        </LinearLayout>
+
+        <!-- Botón Cancelar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnCancelarDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancelar"
+                android:background="@drawable/rounded_button_cancel"
+                android:textColor="@color/white"
+                android:padding="12dp"
+                android:layout_marginEnd="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

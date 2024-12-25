@@ -7,4 +7,16 @@
     <color name="background_dark">#121212</color>
     <color name="text_light">#000000</color>
     <color name="text_dark">#FFFFFF</color>
+    <color name="secondaryColor">#03A9F4</color> <!-- Azul claro -->
+    <color name="black">#000000</color>
+    <color name="gray">#DDDDDD</color>
+    <color name="red">#D32F2F</color> <!-- Rojo oscuro -->
+    <color name="white">#FFFFFF</color> <!-- Blanco -->
+    <color name="primaryText">#212121</color> <!-- Negro principal -->
+    <color name="secondaryText">#757575</color> <!-- Gris oscuro -->
+    <color name="primaryColor">#3F51B5</color> <!-- Azul oscuro -->
+    <color name="secondaryColorss">#FF5722</color> <!-- Naranja -->
+    <color name="lightGray">#F5F5F5</color> <!-- Gris claro -->
+
+
 </resources>
