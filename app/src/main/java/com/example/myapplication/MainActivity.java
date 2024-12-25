@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -51,10 +52,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnCo
     private SensorManager sensorManager;
 
     private boolean isDialogVisible = false;
+    private float umbralSensibilidad = 30.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -63,8 +66,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnCo
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        cargarConfiguraciones();
+
         // Cargar el fragment inicial
-        replaceFragment(new HomeFragment());
+
+
 
         // Configurar navegación en el BottomNavigationView
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -72,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnCo
                 replaceFragment(new HomeFragment());
             } else if (item.getItemId() == R.id.contacts) {
                 replaceFragment(new ContactsFragment());
-            } else if (item.getItemId() == R.id.settings) {
-                replaceFragment(new SettingsFragment());
             } else if (item.getItemId() == R.id.reports) {
                 replaceFragment(new ReportsFragment());
             }
@@ -93,7 +97,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnCo
 
         solicitarPermisos(); // Solicitar permisos al inicio
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        replaceFragment(new HomeFragment());
+
     }
+
+
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -125,11 +133,19 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnCo
         }
     }
 
+
+    private void cargarConfiguraciones() {
+        SharedPreferences preferences = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+        umbralSensibilidad = preferences.getInt("hit_sensitivity", 30); // Carga la sensibilidad configurada
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
         // Registrar el listener del acelerómetro
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        cargarConfiguraciones();
     }
 
     @Override
@@ -266,14 +282,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnCo
     }
 
     private void detectarMovimientoFuerte(float[] valoresAceleracion) {
-        // Umbral para detectar un movimiento fuerte (ajusta según sea necesario)
-        float umbral = 30.0f; // Este valor puede necesitar ajustes
 
         // Calcular la magnitud de la aceleración
         float magnitud = (float) Math.sqrt(Math.pow(valoresAceleracion[0], 2) + Math.pow(valoresAceleracion[1], 2) + Math.pow(valoresAceleracion[2], 2));
 
         // Si la magnitud excede el umbral, se considera un movimiento fuerte
-        if (magnitud > umbral) {
+        if (magnitud > umbralSensibilidad) {
             mostrarDialogoCuentaRegresiva();
         }
     }

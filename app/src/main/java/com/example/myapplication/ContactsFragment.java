@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
@@ -35,7 +37,11 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnCont
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+
         db = FirebaseFirestore.getInstance();
+
+        SharedPreferences preferences = requireActivity().getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE);
+        int textSize = preferences.getInt("text_size", 14);
 
         recyclerView = view.findViewById(R.id.recyclerViewContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

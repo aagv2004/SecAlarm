@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ReportsFragment"
-    android:theme="@style/Theme.Light"
     android:id="@+id/frameLayout2">
+
+
 
 
     <androidx.recyclerview.widget.RecyclerView

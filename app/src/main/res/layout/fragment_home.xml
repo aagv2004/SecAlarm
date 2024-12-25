@@ -2,10 +2,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment"
-    android:theme="@style/Theme.Light">
+    tools:context=".HomeFragment">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,8 +17,8 @@
             android:layout_width="154dp"
             android:layout_height="69dp"
             android:layout_marginStart="16dp"
-            android:text="Llamar"
             android:contentDescription="Botón llamada contacto favorito"
+            android:text="Llamar"
             app:icon="@drawable/baseline_phone_forwarded_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,8 +112,8 @@
             android:id="@+id/nombreFavoritoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre: "
             android:contentDescription="Nombre de Contacto Favorito"
+            android:text="Nombre: "
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.062"

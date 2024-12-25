@@ -4,19 +4,15 @@
 
 
     <item
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/baseline_phone_forwarded_24"
         android:id="@+id/home"
-        android:title="Home" />
+        android:title="Llamadas" />
     <item
         android:icon="@drawable/baseline_contacts_24"
         android:id="@+id/contacts"
-        android:title="Contacts" />
-    <item
-        android:icon="@drawable/baseline_settings_24"
-        android:id="@+id/settings"
-        android:title="Settings" />
+        android:title="Contactos" />
     <item
         android:id="@+id/reports"
         android:icon="@drawable/baseline_report_24"
-        android:title="Reports"/>
+        android:title="Reportes"/>
 </menu>

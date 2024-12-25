@@ -17,6 +17,10 @@
     <color name="primaryColor">#3F51B5</color> <!-- Azul oscuro -->
     <color name="secondaryColorss">#FF5722</color> <!-- Naranja -->
     <color name="lightGray">#F5F5F5</color> <!-- Gris claro -->
-
+    <color name="blue_500">#2196F3</color>
+    <color name="blue_700">#1976D2</color>
+    <color name="red_500">#F44336</color>
+    <color name="blue_200">#90CAF9</color>
+    <color name="red_200">#EF9A9A</color>
 
 </resources>

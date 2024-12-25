@@ -46,6 +46,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         // Inicializar vistas
         nombreFavoritoText = view.findViewById(R.id.nombreFavoritoText);
         numeroFavoritoText = view.findViewById(R.id.numeroFavoritoText);
@@ -61,6 +62,7 @@ public class HomeFragment extends Fragment {
 
         // Cargar contacto favorito
         cargarContactoFavorito();
+
 
         // Configurar permisos de llamada
         requestCallPermissionLauncher = registerForActivityResult(

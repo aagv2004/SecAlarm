@@ -9,4 +9,22 @@
         <item name="colorSurface">@color/background_light</item>
         <item name="colorOnSurface">@color/text_light</item>
     </style>
+    <style name="Theme.SystemDefault" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Colores principales -->
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorPrimaryVariant">@color/blue_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Colores de fondo -->
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorOnBackground">@color/black</item>
+
+        <!-- Colores de superficie -->
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+
+        <!-- Otros colores -->
+        <item name="colorError">@color/red_500</item>
+        <item name="colorOnError">@color/white</item>
+    </style>
 </resources>
